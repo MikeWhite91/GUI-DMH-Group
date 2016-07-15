@@ -304,14 +304,14 @@ function loadImages()
 	for (var i = 0; i < imgArray.length; i++)
 	{
 		imgArray[i].img = new Image();
-		imgArray[i].img.src = "images/"+imgArray[i].str+".jpg";
+		imgArray[i].img.src = "images/"+imgArray[i].str+".png";
 	}
 }
 
 //MAIN MENU
 function enterMain()
 {	
-	_canvas.style.backgroundImage = "url(images/greyBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateMain()
@@ -329,7 +329,7 @@ function exitMain()
 //NEWGAME
 function enterNewGame()
 {
-	_canvas.style.backgroundImage = "url(images/redBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateNewGame()
@@ -345,7 +345,7 @@ function exitNewGame()
 //LOADGAME
 function enterLoadGame()
 {
-	_canvas.style.backgroundImage = "url(images/pinkBackground.jpg";
+	_canvas.style.backgroundImage = "url(images/background.png";
 }
 
 function updateLoadGame()
@@ -361,7 +361,7 @@ function exitLoadGame()
 //SETTINGS
 function enterSettings()
 {
-	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateSettings()
@@ -379,7 +379,7 @@ function exitSettings()
 // CREDITS
 function enterCredits()
 {
-	_canvas.style.backgroundImage = "url(images/eggshellBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateCredits()
@@ -395,7 +395,7 @@ function exitCredits()
 //EXTRA
 function enterExtra()
 {
-	_canvas.style.backgroundImage = "url(images/orangeBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 function updateExtra()
 {
@@ -410,7 +410,7 @@ function exitExtra()
 //QUIT
 function enterQuit()
 {
-	_canvas.style.backgroundImage = "url(images/yellowBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 function updateQuit()
 {
@@ -425,7 +425,7 @@ function exitQuit()
 //GAMESTATE
 function enterGameState()
 {
-	_canvas.style.backgroundImage = "url(images/blueBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateGameState()
@@ -442,7 +442,7 @@ function exitGameState()
 //SAVEGAME
 function enterSave()
 {	
-	_canvas.style.backgroundImage = "url(images/cyanBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateSave()
@@ -459,7 +459,7 @@ function exitSave()
 //PAUSE
 function enterPause()
 {	
-	_canvas.style.backgroundImage = "url(images/brownBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updatePause()
@@ -476,7 +476,7 @@ function exitPause()
 //MAP
 function enterMap()
 {	
-	_canvas.style.backgroundImage = "url(images/limeGreenBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateMap()
@@ -494,7 +494,7 @@ function exitMap()
 //WINSTATE
 function enterWinState()
 {	
-	_canvas.style.backgroundImage = "url(images/fenrisBlueBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateWinState()
@@ -511,7 +511,7 @@ function exitWinState()
 //GAME OVER STATE
 function enterGameOver()
 {	
-	_canvas.style.backgroundImage = "url(images/skinBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateGameOver()
@@ -528,7 +528,7 @@ function exitGameOver()
 //Audio Screen
 function enterAudio()
 {	
-	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateAudio()
@@ -545,7 +545,7 @@ function exitAudio()
 //VISUAL SETTINGS
 function enterVisual()
 {	
-	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateVisual()
@@ -563,7 +563,7 @@ function exitVisual()
 //CONTROL SETTINGS
 function enterControls()
 {	
-	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateControls()
@@ -580,7 +580,7 @@ function exitControls()
 //STORE
 function enterStore()
 {	
-	_canvas.style.backgroundImage = "url(images/orangeBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateStore()
@@ -597,7 +597,7 @@ function exitStore()
 //CHEATS
 function enterCheats()
 {	
-	_canvas.style.backgroundImage = "url(images/orangeBackground.jpg)";
+	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
 function updateCheats()
