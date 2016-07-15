@@ -16,7 +16,7 @@ var _ctx = _canvas.getContext("2d");
 // Content
 var uiElementTypes = { buttons:0, simpleText:1 };
 
-var screenEnum = { splash:0, main:1,  newGame:2, loadGame:3, settings:4, credits:5, extra:6, screenshots:7, replays:8, quitGame:9, gameState:10, saveGame:11, pauseGame:12, invScreen:13, bestiaryScreen:14 mapScreen:15,
+var screenEnum = { splash:0, main:1,  newGame:2, loadGame:3, settings:4, credits:5, extra:6, screenshots:7, replays:8, quitGame:9, gameState:10, saveGame:11, pauseGame:12, invScreen:13, bestiaryScreen:14, mapScreen:15,
 					winState:16, gameOverState:17, audio:18, visual:19, controls:20, store:21, none:22};
 var screenNames = { splash:"SPLASH", main:"MAIN MENU", newGame:"NEW GAME", loadGame:"LOAD GAME", settings:"SETTINGS", credits:"CREDITS", extra:"EXTRA", screenshots:"SCREENSHOTS",  replays:"REPLAYS", quitGame:"QUIT", gameState:"GAME STATE",
 					saveGame:"SAVE GAME", pauseGame:"GAME PAUSED", invScreen:"INVENTORY", bestiaryScreen:"BESTIARY", mapScreen:"MAP", winState:"WIN SCREEN", gameOverState:"GAME OVER", audio:"Audio Settings", 
