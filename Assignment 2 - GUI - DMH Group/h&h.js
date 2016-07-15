@@ -106,4 +106,507 @@ var screenNames = { splash:"SPLASH", main:"MAIN MENU", newGame:"NEW GAME", loadG
 						{str:"BACK", targetScreen:screenEnum.extra, elementType:uiElementTypes.buttons} 
 						];
 	
+	var imgArray = [{img:null, str:"background", x:0, y:0, w:1280, h:800, over:false}];
 	
+	var screens = [ {enter:enterMain, update:updateMain, exit:exitMain, str:screenNames.main, content:mainMenuButtons, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterNewGame, update:updateNewGame, exit:exitNewGame, str:screenNames.newGame, content:newGameElements, bgImage:imgArray[1], textColor:"Black"},
+				{enter:enterLoadGame, update:updateLoadGame, exit:exitLoadGame, str:screenNames.loadGame, content:loadGameElements, bgImage:imgArray[2], text:"Black"},
+				{enter:enterSettings, update:updateSettings, exit:exitSettings, str:screenNames.settings, content:settingsElements, bgImage:imgArray[3], textColor:"Black"},
+				{enter:enterCredits, update:updateCredits, exit:exitCredits, str:screenNames.credits, content:creditsElements, bgImage:imgArray[4], textColor:"Black"},
+				{enter:enterExtra, update:updateExtra, exit:exitExtra, str:screenNames.extra, content:extraElements, bgImage:imgArray[5], textColor:"Black"},
+				{enter:enterQuit, update:updateQuit, exit:exitQuit, str:screenNames.quitGame, content:quitGameElements, bgImage:imgArray[6], textColor:"Black"},
+				{enter:enterGameState, update:updateGameState, exit:exitGameState, str:screenNames.gameState, content:gameStateElements, bgImage:imgArray[7], textColor:"Black"},
+				{enter:enterSave, update:updateSave, exit:exitSave, str:screenNames.saveGame, content: saveGameElements, bgImage:imgArray[8], textColor:"Black"},
+				{enter:enterPause, update:updatePause, exit:exitPause, str:screenNames.pauseGame, content: pauseGameElements, bgImage:imgArray[9], textColor:"Black"},
+				{enter:enterMap, update:updateMap, exit:exitMap, str:screenNames.mapScreen, content: mapElements, bgImage:imgArray[10], textColor:"Black"},
+				{enter:enterWinState, update:updateWinState, exit:exitWinState, str:screenNames.winState, content: winStateElements, bgImage:imgArray[11], textColor:"Black"},
+				{enter:enterGameOver, update:updateGameOver, exit:exitGameOver, str:screenNames.gameOverState, content: gameOverElements, bgImage:imgArray[12], textColor:"Black"},
+				{enter:enterAudio, update:updateAudio, exit:exitAudio, str:screenNames.audio, content: audioElements, bgImage:imgArray[13], textColor:"Black"},
+				{enter:enterVisual, update:updateVisual, exit:exitVisual, str:screenNames.visual, content: visualElements, bgImage:imgArray[14], textColor:"Black"},
+				{enter:enterControls, update:updateControls, exit:exitControls, str:screenNames.controls, content: controlsElements, bgImage:imgArray[15], textColor:"Black"},
+				{enter:enterStore, update:updateStore, exit:exitStore, str:screenNames.store, content: storeElements, bgImage:imgArray[16], textColor:"Black"},
+				{enter:enterCheats, update:updateCheats, exit:exitCheats, str:screenNames.cheats, content: cheatsElements, bgImage:imgArray[17], textColor:"Black"}
+				];
+	var screenStack = [];
+var currentScreen;
+						
+var menuPositionY = 0;
+var currentMenuItemSelection = 0;
+
+// Execute init
+initGame();
+
+document.onkeyup = function(e)
+{ 
+	switch(window.event.keyCode){
+		case(38): // Up Arrow
+			var newValue = currentMenuItemSelection -1;
+			if ( newValue >= 0 && currentScreen.content[newValue].elementType == uiElementTypes.buttons )
+			{
+				currentMenuItemSelection = newValue;
+			}
+			break;
+		case(40): // Down Arrow
+			var newValue = currentMenuItemSelection + 1;
+			if ( newValue < currentScreen.content.length && currentScreen.content[newValue].elementType == uiElementTypes.buttons )
+			{
+				currentMenuItemSelection = newValue;
+			}
+			break;
+		case(13): // Enter
+			activateButton();
+			break;	
+			
+   	}
+};
+
+function activateButton()
+{
+	changeScreenTo(currentScreen.content[currentMenuItemSelection].targetScreen);
+}
+
+function initGame()
+{
+	changeScreenTo(screenEnum.main);
+	loadImages();
+	
+	setInterval(update, 1000/FPS);
+	
+	window.addEventListener('resize', resizeCanvas, false)
+	resizeCanvas();
+}
+
+function resizeCanvas() 
+{
+	_canvas.width = window.innerWidth;
+	_canvas.height = window.innerHeight;
+}
+
+function update()
+{
+	currentScreen = screenStack[screenStack.length - 1];
+	
+	_ctx.clearRect(0,0,_canvas.width,_canvas.height);
+	
+	_ctx.beginPath();
+	_ctx.font = "60px Arial";
+	_ctx.lineWidth=1;
+	_ctx.strokeStyle = currentScreen.textColor;
+	_ctx.textAlign = "center";
+	_ctx.strokeText(currentScreen.str, _canvas.width/2, _canvas.height/4);
+	
+	menuPositionY = _canvas.height/4 + 60;
+	
+	currentScreen.update();
+}
+
+function displayContent()
+{
+	var currentContent = currentScreen.content;
+	var currentXPos = _canvas.width/2 - 150;
+	var currentYPos = menuPositionY;
+	
+	for (var i=0; i < currentContent.length; i++)
+	{
+		var textX = currentXPos + BUTTON_TEXT_X_OFFSET;
+		var textY = currentYPos + BUTTON_TEXT_Y_OFFSET;
+			
+		if ( currentContent[i].elementType == uiElementTypes.simpleText )
+		{
+			// draw Text
+			_ctx.beginPath();
+			_ctx.font = "40px";
+			_ctx.lineWidth = 1;
+			_ctx.strokeStyle = currentScreen.textColor;
+			_ctx.textAlign = "center";
+			_ctx.strokeText(currentContent[i].str, textX, textY);
+		}
+		else if ( currentContent[i].elementType == uiElementTypes.buttons )
+		{
+			// check if its current selection to draw circle
+			// draw buttons
+			_ctx.beginPath();
+			_ctx.strokeStyle = currentScreen.textColor;
+			_ctx.rect(currentXPos, currentYPos, BUTTON_WIDTH, BUTTON_HEIGHT); 
+			_ctx.stroke();
+			
+			// draw button text
+			_ctx.beginPath();
+			_ctx.font = "30px Arial";
+			_ctx.lineWidth = 1;
+			_ctx.strokeStyle = currentScreen.textColor;
+			_ctx.textAlign = "center";
+			_ctx.strokeText(currentContent[i].str, textX, textY);
+			
+			if ( currentMenuItemSelection == i )
+			{
+				// draw circle to indicate selection
+				var radius = 10;
+
+				_ctx.beginPath();
+				_ctx.arc(currentXPos - BUTTON_SELECTION_INDICATOR_OFFSET, currentYPos + BUTTON_SELECTION_INDICATOR_OFFSET, radius, 0, 2 * Math.PI, false);
+				_ctx.lineWidth = 1;
+				_ctx.strokeStyle = currentScreen.textColor;
+				_ctx.stroke();
+			}
+		}
+		
+		currentYPos = currentYPos + BUTTON_HEIGHT + BUTTON_OFFSET;
+	}
+}
+
+function changeScreenTo(screenIdx)
+{
+	if ( screenStack.length > 0 )
+	{
+		var currentIndex = screenStack.length - 1;
+		var currentScreen = screenStack[currentIndex];
+	
+		currentScreen.exit();
+		
+		var indexOfRequestedScreen = screenStack.indexOf(screens[screenIdx]);
+		
+		if ( indexOfRequestedScreen > -1 )
+		{
+			// If requested screen was already in the stack, just pop out screens until reaching it.
+			for (var i = screenStack.length-1; i > indexOfRequestedScreen; i--)
+			{
+				screenStack.pop();
+			}
+		}
+		else
+		{
+			screenStack.push(screens[screenIdx]);
+		}
+	}
+	else
+	{
+		screenStack.push(screens[screenIdx]);
+	}
+
+	
+	currentScreen = screenStack[screenStack.length - 1];
+	
+	for (var i = 0; i < currentScreen.content.length; i++)
+	{
+		if ( currentScreen.content[i].elementType == uiElementTypes.buttons )
+		{
+			currentMenuItemSelection = i;
+			break;
+		}
+	}
+	
+	currentScreen.enter();
+}
+
+function loadImages()
+{
+	for (var i = 0; i < imgArray.length; i++)
+	{
+		imgArray[i].img = new Image();
+		imgArray[i].img.src = "images/"+imgArray[i].str+".jpg";
+	}
+}
+
+//MAIN MENU
+function enterMain()
+{	
+	_canvas.style.backgroundImage = "url(images/greyBackground.jpg)";
+}
+
+function updateMain()
+{
+	displayContent();
+}
+
+function exitMain()
+{
+	// exit code
+}
+
+//END OF MAIN
+
+//NEWGAME
+function enterNewGame()
+{
+	_canvas.style.backgroundImage = "url(images/redBackground.jpg)";
+}
+
+function updateNewGame()
+{
+	displayContent();
+}
+function exitNewGame()
+{
+	//exit code
+}
+//END OF NEWGAME
+
+//LOADGAME
+function enterLoadGame()
+{
+	_canvas.style.backgroundImage = "url(images/pinkBackground.jpg";
+}
+
+function updateLoadGame()
+{
+	displayContent();
+}
+
+function exitLoadGame()
+{
+	
+}
+
+//SETTINGS
+function enterSettings()
+{
+	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+}
+
+function updateSettings()
+{
+	displayContent();
+	
+	// Add here any custom Settings screen code if necessary
+}
+
+function exitSettings()
+{
+}
+//END OF SETTINGS
+
+// CREDITS
+function enterCredits()
+{
+	_canvas.style.backgroundImage = "url(images/eggshellBackground.jpg)";
+}
+
+function updateCredits()
+{
+	displayContent();
+}
+
+function exitCredits()
+{
+}
+// END OF CREDITS
+
+//EXTRA
+function enterExtra()
+{
+	_canvas.style.backgroundImage = "url(images/orangeBackground.jpg)";
+}
+function updateExtra()
+{
+	displayContent();
+}
+function exitExtra()
+{
+	
+}
+//END OF EXTRA
+
+//QUIT
+function enterQuit()
+{
+	_canvas.style.backgroundImage = "url(images/yellowBackground.jpg)";
+}
+function updateQuit()
+{
+	displayContent();
+}
+function exitQuit()
+{
+	
+}
+//END OF QUIT
+
+//GAMESTATE
+function enterGameState()
+{
+	_canvas.style.backgroundImage = "url(images/blueBackground.jpg)";
+}
+
+function updateGameState()
+{
+	displayContent();
+}
+
+function exitGameState()
+{
+	
+}
+//END OF GAMESTATE
+
+//SAVEGAME
+function enterSave()
+{	
+	_canvas.style.backgroundImage = "url(images/cyanBackground.jpg)";
+}
+
+function updateSave()
+{
+	displayContent();
+}
+
+function exitSave()
+{
+	// exit code
+}
+//END OF SAVEGAME
+
+//PAUSE
+function enterPause()
+{	
+	_canvas.style.backgroundImage = "url(images/brownBackground.jpg)";
+}
+
+function updatePause()
+{
+	displayContent();
+}
+
+function exitPause()
+{
+	// exit code
+}
+//END OF PAUSE
+
+//MAP
+function enterMap()
+{	
+	_canvas.style.backgroundImage = "url(images/limeGreenBackground.jpg)";
+}
+
+function updateMap()
+{
+	displayContent();
+}
+
+function exitMap()
+{
+	// exit code
+}
+//END OF MAP
+
+
+//WINSTATE
+function enterWinState()
+{	
+	_canvas.style.backgroundImage = "url(images/fenrisBlueBackground.jpg)";
+}
+
+function updateWinState()
+{
+	displayContent();
+}
+
+function exitWinState()
+{
+	// exit code
+}
+//END WINSTATE
+
+//GAME OVER STATE
+function enterGameOver()
+{	
+	_canvas.style.backgroundImage = "url(images/skinBackground.jpg)";
+}
+
+function updateGameOver()
+{
+	displayContent();
+}
+
+function exitGameOver()
+{
+	// exit code
+}
+//END OF GAME OVER STATE
+
+//Audio Screen
+function enterAudio()
+{	
+	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+}
+
+function updateAudio()
+{
+	displayContent();
+}
+
+function exitAudio()
+{
+	// exit code
+}
+//END OF AUDIO
+
+//VISUAL SETTINGS
+function enterVisual()
+{	
+	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+}
+
+function updateVisual()
+{
+	displayContent();
+}
+
+function exitVisual()
+{
+	// exit code
+}
+//END OF VISUAL SETTINGS
+
+
+//CONTROL SETTINGS
+function enterControls()
+{	
+	_canvas.style.backgroundImage = "url(images/nurgleRotBackground.jpg)";
+}
+
+function updateControls()
+{
+	displayContent();
+}
+
+function exitControls()
+{
+	// exit code
+}
+//END OF CONTROL SETTINGS
+
+//STORE
+function enterStore()
+{	
+	_canvas.style.backgroundImage = "url(images/orangeBackground.jpg)";
+}
+
+function updateStore()
+{
+	displayContent();
+}
+
+function exitStore()
+{
+	// exit code
+}
+//END OF STORE
+
+//CHEATS
+function enterCheats()
+{	
+	_canvas.style.backgroundImage = "url(images/orangeBackground.jpg)";
+}
+
+function updateCheats()
+{
+	displayContent();
+}
+
+function exitCheats()
+{
+	// exit code
+}
+//END OF CHEATS
