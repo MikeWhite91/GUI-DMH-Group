@@ -16,118 +16,125 @@ var _ctx = _canvas.getContext("2d");
 // Content
 var uiElementTypes = { buttons:0, simpleText:1 };
 
-var screenEnum = { splash:0, main:1,  newGame:2, loadGame:3, settings:4, credits:5, extra:6, screenshots:7, replays:8, quitGame:9, gameState:10, saveGame:11, pauseGame:12, invScreen:13, bestiaryScreen:14, mapScreen:15,
-					winState:16, gameOverState:17, audio:18, visual:19, controls:20, store:21, none:22};
-var screenNames = { splash:"SPLASH", main:"MAIN MENU", newGame:"NEW GAME", loadGame:"LOAD GAME", settings:"SETTINGS", credits:"CREDITS", extra:"EXTRA", screenshots:"SCREENSHOTS",  replays:"REPLAYS", quitGame:"QUIT", gameState:"GAME STATE",
-					saveGame:"SAVE GAME", pauseGame:"GAME PAUSED", invScreen:"INVENTORY", bestiaryScreen:"BESTIARY", mapScreen:"MAP", winState:"WIN SCREEN", gameOverState:"GAME OVER", audio:"Audio Settings", 
-					visual:"Visual Settings", controls:"Control Settings", store:"STORE"};
+var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5, quitGame:6, saveGame:7, loadingScreen:8, firstPerson:9, thirdPerson:10, mount:11, 
+					pause:12, map:13, inventory:14, beastiary:15, gameOver:16, winState:17, controls: 18};
+
+	var screenNames 	= {title:"HALBERDS & HELLHOUNDS", newGame:"NEW GAME", loadGame:"LOAD GAME", settings:"SETTINGS", dlc:"DLC", credits:"CREDITS", 
+						quitGame:"QUIT", saveGame:"SAVE GAME", loadingScreen:"LOADING", firstPerson:"FIRST PERSON", thirdPerson:"THIRD PERSON", mount:"MOUNT", pause:"PAUSED",
+						map:"MAP", inventory:"INVENTORY", beastiary:"BEASTIARY", gameOverState:"GAME OVER", winState:"WIN SCREEN", controls:"CONTROLS"};
 	
-	var mainMenuButtons = [	{str:screenNames.newGame, targetScreen:screenEnum.newGame, elementType:uiElementTypes.buttons},
+	var titleButtons 	= [{str:screenNames.newGame, targetScreen:screenEnum.newGame, elementType:uiElementTypes.buttons},
 						{str:screenNames.loadGame, targetScreen:screenEnum.loadGame, elementType:uiElementTypes.buttons},
 						{str:screenNames.settings, targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons },
-						{str:screenNames.credits, targetScreen:screenEnum.credits, elementType:uiElementTypes.buttons },
-						{str:screenNames.extra, targetScreen:screenEnum.extra, elementType:uiElementTypes.buttons},
+						{str:screenNames.dlc, targetScreen:screenEnum.dlc, elementType:uiElementTypes.buttons },
+						{str:screenNames.credits, targetScreen:screenEnum.credits, elementType:uiElementTypes.buttons},
 						{str:screenNames.quitGame, targetScreen:screenEnum.quitGame, elementType:uiElementTypes.buttons}
 						];
-	var newGameElements = [ {str:"Easy", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"Medium", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"Hard", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"BACK",  targetScreen:screenEnum.main, elementType:uiElementTypes.buttons}	
+	var newGameElements = [ {str:"Easy", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
+						{str:"Medium", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
+						{str:"Hard", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
+						{str:"BACK",  targetScreen:screenEnum.title, elementType:uiElementTypes.buttons}	
 						];	
-	var loadGameElements = [{str:"SaveState1", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"SaveState2", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"SaveState3", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"BACK",  targetScreen:screenEnum.main, elementType:uiElementTypes.buttons}
+	var loadGameElements = [{str:"Save 1", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
+						{str:"Save 2", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
+						{str:"Save 3", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
+						{str:"BACK",  targetScreen:screenEnum.title, elementType:uiElementTypes.buttons}
 						];
-	var settingsElements = [{str:"Options page with sound, video and gameplay options.", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"Audio", targetScreen:screenEnum.audio, elementType:uiElementTypes.buttons}, 
-						{str:"Visual", targetScreen:screenEnum.visual, elementType:uiElementTypes.buttons}, 
+	var settingsElements = [{str:"Volume", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"Brightness", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Controls", targetScreen:screenEnum.controls, elementType:uiElementTypes.buttons}, 
-						{str:"BACK", targetScreen:screenEnum.main, elementType:uiElementTypes.buttons} 
+						{str:"BACK", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons} 
 						];
-	var creditsElements = [ {str:"PRODUCER ...", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"UI PROGRAMMER ...", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.main, elementType:uiElementTypes.buttons} 
+	var dlcElements		= [{str:"Downloadable Content", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"BACK", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons} 
 						];
-	var extraElements 	= [	{str:"This is the extra's page", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"Store", targetScreen:screenEnum.store, elementType:uiElementTypes.buttons}, 
-						{str:"Cheats", targetScreen:screenEnum.cheats, elementType:uiElementTypes.buttons}, 
-						{str:"BACK", targetScreen:screenEnum.main, elementType:uiElementTypes.buttons} 
+	var creditsElements = [ {str:"DIRECTOR", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"UI", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"SKIP", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons} 
 						];
-	var quitGameElements= [	{str:"Would you like to quit the game?", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"YES", targetScreen:screenEnum.main, elementType:uiElementTypes.buttons},
-						{str:"NO", targetScreen:screenEnum.main, elementType:uiElementTypes.buttons}
-						];
-	var gameStateElements = [ {str:"This is the game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"PAUSE", targetScreen:screenEnum.pauseGame, elementType:uiElementTypes.buttons}, 
-						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
-						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons}, 
-						{str:"BACK", targetScreen:screenEnum.main, elementType:uiElementTypes.buttons} 
+	var quitGameElements= [	{str:"Quit Game?", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"YES", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons},
+						{str:"NO", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons}
 						];
 	var saveGameElements = [{str:"Save your game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"SaveState1", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"SaveState2", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"SaveState3", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons},
-						{str:"BACK", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons} 
+						{str:"Save 1", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
+						{str:"Save 2", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
+						{str:"Save 3", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
+						{str:"BACK", targetScreen:screenEnum.firstPerson, elementType:uiElementTypes.buttons} 
 						];
-	var pauseGameElements = [{str:"GAME PAUSED", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+	var loadingScreenElements = [{str:"Loading Screen", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"Loading", targetScreen:screenEnum.firstPerson, elementType:uiElementTypes.buttons}
+						];
+	var firstPersonElements = [ {str:"This is the game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"PAUSE", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}, 
+						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
+						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons} 
+						];
+	var thirdPersonElements = [ {str:"This is the game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"PAUSE", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}, 
+						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
+						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons} 
+						];
+	var mountElements = [ {str:"This is the game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"PAUSE", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}, 
+						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
+						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons} 
+						];
+	var pauseElements = [{str:"GAME PAUSED", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Save Game", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
 						{str:"Load Game", targetScreen:screenEnum.loadGame, elementType:uiElementTypes.buttons},
-						{str:"Map", targetScreen:screenEnum.mapScreen, elementType:uiElementTypes.buttons},
-						{str:"BACK", targetScreen:screenEnum.gameState, elementType:uiElementTypes.buttons} 
-						];
-	var invScreenElements = [{str:"INVENTORY", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.pauseGame, elementType:uiElementTypes.buttons}
+						{str:"Map", targetScreen:screenEnum.map, elementType:uiElementTypes.buttons},
+						{str:"Inventory", targetScreen:screenEnum.inventory, elementType:uiElementTypes.buttons},
+						{str:"Beastiary", targetScreen:screenEnum.beastiary, elementType:uiElementTypes.buttons},
+						{str:"Back to Title", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons},
+						{str:"Resume", targetScreen:screenEnum.firstPerson, elementType:uiElementTypes.buttons} 
 						];
 	var mapElements 	=  [{str:"This is the map", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.pauseGame, elementType:uiElementTypes.buttons} 
+						{str:"BACK", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons} 
 						];	
-	var bestiaryScreenElements = [{str:"BESTIARY", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.pauseGame, elementType:uiElementTypes.buttons}
+	var inventoryElements = [{str:"INVENTORY", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"BACK", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}
 						];
-	var winStateElements=[  {str:"YOU WON!", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"CREDITS", targetScreen:screenEnum.credits, elementType:uiElementTypes.buttons} 
+	var beastiaryElements = [{str:"BESTIARY", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"BACK", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}
 						];
 	var gameOverElements=[ 	{str:"GAME OVER, MAN", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"LOAD GAME", targetScreen:screenEnum.loadGame, elementType:uiElementTypes.buttons}, 
 						{str:"EXIT GAME", targetScreen:screenEnum.quitGame, elementType:uiElementTypes.buttons} 
 						];
-	var audioElements = [   {str:"This is the audio screen", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons} 
-						];
-	var visualElements = [  {str:"This is the visuals screen", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons} 
+	var winStateElements=[  {str:"YOU WON!", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"CREDITS", targetScreen:screenEnum.credits, elementType:uiElementTypes.buttons} 
 						];
 	var controlsElements = [{str:"This is the controls screen", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"BACK", targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons} 
 						];
-	var storeElements = [   {str:"This is the DLC Store", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
-						{str:"BACK", targetScreen:screenEnum.extra, elementType:uiElementTypes.buttons} 
-						];
 	
 	var imgArray = [{img:null, str:"background", x:0, y:0, w:1280, h:800, over:false}];
 	
-	var screens = [ {enter:enterMain, update:updateMain, exit:exitMain, str:screenNames.main, content:mainMenuButtons, bgImage:imgArray[0], textColor:"Black"},
-				{enter:enterNewGame, update:updateNewGame, exit:exitNewGame, str:screenNames.newGame, content:newGameElements, bgImage:imgArray[1], textColor:"Black"},
-				{enter:enterLoadGame, update:updateLoadGame, exit:exitLoadGame, str:screenNames.loadGame, content:loadGameElements, bgImage:imgArray[2], text:"Black"},
-				{enter:enterSettings, update:updateSettings, exit:exitSettings, str:screenNames.settings, content:settingsElements, bgImage:imgArray[3], textColor:"Black"},
-				{enter:enterCredits, update:updateCredits, exit:exitCredits, str:screenNames.credits, content:creditsElements, bgImage:imgArray[4], textColor:"Black"},
-				{enter:enterExtra, update:updateExtra, exit:exitExtra, str:screenNames.extra, content:extraElements, bgImage:imgArray[5], textColor:"Black"},
-				{enter:enterQuit, update:updateQuit, exit:exitQuit, str:screenNames.quitGame, content:quitGameElements, bgImage:imgArray[6], textColor:"Black"},
-				{enter:enterGameState, update:updateGameState, exit:exitGameState, str:screenNames.gameState, content:gameStateElements, bgImage:imgArray[7], textColor:"Black"},
-				{enter:enterSave, update:updateSave, exit:exitSave, str:screenNames.saveGame, content: saveGameElements, bgImage:imgArray[8], textColor:"Black"},
-				{enter:enterPause, update:updatePause, exit:exitPause, str:screenNames.pauseGame, content: pauseGameElements, bgImage:imgArray[9], textColor:"Black"},
-				{enter:enterMap, update:updateMap, exit:exitMap, str:screenNames.mapScreen, content: mapElements, bgImage:imgArray[10], textColor:"Black"},
-				{enter:enterWinState, update:updateWinState, exit:exitWinState, str:screenNames.winState, content: winStateElements, bgImage:imgArray[11], textColor:"Black"},
-				{enter:enterGameOver, update:updateGameOver, exit:exitGameOver, str:screenNames.gameOverState, content: gameOverElements, bgImage:imgArray[12], textColor:"Black"},
-				{enter:enterAudio, update:updateAudio, exit:exitAudio, str:screenNames.audio, content: audioElements, bgImage:imgArray[13], textColor:"Black"},
-				{enter:enterVisual, update:updateVisual, exit:exitVisual, str:screenNames.visual, content: visualElements, bgImage:imgArray[14], textColor:"Black"},
-				{enter:enterControls, update:updateControls, exit:exitControls, str:screenNames.controls, content: controlsElements, bgImage:imgArray[15], textColor:"Black"},
-				{enter:enterStore, update:updateStore, exit:exitStore, str:screenNames.store, content: storeElements, bgImage:imgArray[16], textColor:"Black"},
-				{enter:enterCheats, update:updateCheats, exit:exitCheats, str:screenNames.cheats, content: cheatsElements, bgImage:imgArray[17], textColor:"Black"}
+	var screens = [{enter:enterTitle, update:updateTitle, exit:exitTitle, str:screenNames.title, content:titleButtons, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterNewGame, update:updateNewGame, exit:exitNewGame, str:screenNames.newGame, content:newGameElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterLoadGame, update:updateLoadGame, exit:exitLoadGame, str:screenNames.loadGame, content:loadGameElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterSettings, update:updateSettings, exit:exitSettings, str:screenNames.settings, content:settingsElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterDlc, update:updateDlc, exit:exitDlc, str:screenNames.Dlc, content:dlcElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterCredits, update:updateCredits, exit:exitCredits, str:screenNames.credits, content:creditsElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterQuit, update:updateQuit, exit:exitQuit, str:screenNames.quitGame, content:quitGameElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterSave, update:updateSave, exit:exitSave, str:screenNames.saveGame, content: saveGameElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterLoadingScreen, update:updateLoadingScreen, exit:exitLoadingScreen, str:screenNames.loadingScreen, content:loadingScreenElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterFirstPerson, update:updateFirstPerson, exit:exitFirstPerson, str:screenNames.firstPerson, content:firstPersonElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterThirdPerson, update:updateThirdPerson, exit:exitThirdPerson, str:screenNames.thirdPerson, content:thirdPersonElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterMount, update:updateMount, exit:exitMount, str:screenNames.mount, content:mountElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterPause, update:updatePause, exit:exitPause, str:screenNames.pause, content: pauseElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterMap, update:updateMap, exit:exitMap, str:screenNames.mapScreen, content: mapElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterInventory, update:updateInventory, exit:exitInventory, str:screenNames.inventory, content: inventoryElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterBeastiary, update:updateBeastiary, exit:exitBeastiary, str:screenNames.beastiary, content: beastiaryElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterGameOver, update:updateGameOver, exit:exitGameOver, str:screenNames.gameOverState, content: gameOverElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterWinState, update:updateWinState, exit:exitWinState, str:screenNames.winState, content: winStateElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterControls, update:updateControls, exit:exitControls, str:screenNames.controls, content: controlsElements, bgImage:imgArray[0], textColor:"Black"}
 				];
-	var screenStack = [];
+var screenStack = [];
 var currentScreen;
 						
 var menuPositionY = 0;
@@ -167,7 +174,7 @@ function activateButton()
 
 function initGame()
 {
-	changeScreenTo(screenEnum.main);
+	changeScreenTo(screenEnum.title);
 	loadImages();
 	
 	setInterval(update, 1000/FPS);
@@ -308,23 +315,23 @@ function loadImages()
 	}
 }
 
-//MAIN MENU
-function enterMain()
+//title MENU
+function enterTitle()
 {	
 	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
-function updateMain()
+function updateTitle()
 {
 	displayContent();
 }
 
-function exitMain()
+function exitTitle()
 {
 	// exit code
 }
 
-//END OF MAIN
+//END OF Title
 
 //NEWGAME
 function enterNewGame()
@@ -357,6 +364,24 @@ function exitLoadGame()
 {
 	
 }
+//end of load game
+
+//LOADGAME
+function enterLoadingScreen()
+{
+	_canvas.style.backgroundImage = "url(images/background.png";
+}
+
+function updateLoadingScreen()
+{
+	displayContent();
+}
+
+function exitLoadingScreen()
+{
+	
+}
+//end of loadingscreen
 
 //SETTINGS
 function enterSettings()
@@ -393,15 +418,15 @@ function exitCredits()
 // END OF CREDITS
 
 //EXTRA
-function enterExtra()
+function enterDlc()
 {
 	_canvas.style.backgroundImage = "url(images/background.png)";
 }
-function updateExtra()
+function updateDlc()
 {
 	displayContent();
 }
-function exitExtra()
+function exitDlc()
 {
 	
 }
@@ -422,22 +447,56 @@ function exitQuit()
 }
 //END OF QUIT
 
-//GAMESTATE
-function enterGameState()
+//firstPerson
+function enterFirstPerson()
 {
 	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
-function updateGameState()
+function updateFirstPerson()
 {
 	displayContent();
 }
 
-function exitGameState()
+function exitFirstPerson()
 {
 	
 }
-//END OF GAMESTATE
+//END OF FirstPerson
+
+//ThirdPerson
+function enterThirdPerson()
+{
+	_canvas.style.backgroundImage = "url(images/background.png)";
+}
+
+function updateThirdPerson()
+{
+	displayContent();
+}
+
+function exitThirdPerson()
+{
+	
+}
+//END OF thirdPerson
+
+//firstPerson
+function enterMount()
+{
+	_canvas.style.backgroundImage = "url(images/background.png)";
+}
+
+function updateMount()
+{
+	displayContent();
+}
+
+function exitMount()
+{
+	
+}
+//END OF Mount
 
 //SAVEGAME
 function enterSave()
@@ -526,39 +585,6 @@ function exitGameOver()
 //END OF GAME OVER STATE
 
 //Audio Screen
-function enterAudio()
-{	
-	_canvas.style.backgroundImage = "url(images/background.png)";
-}
-
-function updateAudio()
-{
-	displayContent();
-}
-
-function exitAudio()
-{
-	// exit code
-}
-//END OF AUDIO
-
-//VISUAL SETTINGS
-function enterVisual()
-{	
-	_canvas.style.backgroundImage = "url(images/background.png)";
-}
-
-function updateVisual()
-{
-	displayContent();
-}
-
-function exitVisual()
-{
-	// exit code
-}
-//END OF VISUAL SETTINGS
-
 
 //CONTROL SETTINGS
 function enterControls()
@@ -577,36 +603,35 @@ function exitControls()
 }
 //END OF CONTROL SETTINGS
 
-//STORE
-function enterStore()
+//inventory
+function enterInventory()
 {	
 	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
-function updateStore()
+function updateInventory()
 {
 	displayContent();
 }
 
-function exitStore()
+function exitInventory()
 {
 	// exit code
 }
-//END OF STORE
 
-//CHEATS
-function enterCheats()
+//beastiary
+function enterBeastiary()
 {	
 	_canvas.style.backgroundImage = "url(images/background.png)";
 }
 
-function updateCheats()
+function updateBeastiary()
 {
 	displayContent();
 }
 
-function exitCheats()
+function exitBeastiary()
 {
 	// exit code
 }
-//END OF CHEATS
+
