@@ -17,15 +17,14 @@ var _ctx = _canvas.getContext("2d");
 var uiElementTypes = { buttons:0, simpleText:1 };
 
 var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5, quitGame:6, saveGame:7, loadingScreen:8, firstPerson:9, thirdPerson:10, mount:11, 
-					pause:12, map:13, inventory:14, beastiary:15, gameOver:16, winState:17, controls: 18};
+					pause:12, map:13, inventory:14, beastiary:15, gameOver:16, winState:17, controls: 18, gameView: 19};
 
 	var screenNames 	= {title:"HALBERDS & HELLHOUNDS", newGame:"NEW GAME", loadGame:"LOAD GAME", settings:"SETTINGS", dlc:"DLC", credits:"CREDITS", 
 						quitGame:"QUIT", saveGame:"SAVE GAME", loadingScreen:"LOADING", firstPerson:"FIRST PERSON", thirdPerson:"THIRD PERSON", mount:"MOUNT", pause:"PAUSED",
-						map:"MAP", inventory:"INVENTORY", beastiary:"BEASTIARY", gameOverState:"GAME OVER", winState:"WIN SCREEN", controls:"CONTROLS"};
+						map:"MAP", inventory:"INVENTORY", beastiary:"BEASTIARY", gameOver:"GAME OVER", winState:"WIN SCREEN", controls:"CONTROLS", gameView: "GAME VIEW"};
 	
 	var titleButtons 	= [{str:screenNames.newGame, targetScreen:screenEnum.newGame, elementType:uiElementTypes.buttons},
 						{str:screenNames.loadGame, targetScreen:screenEnum.loadGame, elementType:uiElementTypes.buttons},
-						{str:screenNames.settings, targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons },
 						{str:screenNames.dlc, targetScreen:screenEnum.dlc, elementType:uiElementTypes.buttons },
 						{str:screenNames.credits, targetScreen:screenEnum.credits, elementType:uiElementTypes.buttons},
 						{str:screenNames.quitGame, targetScreen:screenEnum.quitGame, elementType:uiElementTypes.buttons}
@@ -43,6 +42,7 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 	var settingsElements = [{str:"Volume", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Brightness", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Controls", targetScreen:screenEnum.controls, elementType:uiElementTypes.buttons}, 
+						{str:"Game View", targetScreen:screenEnum.gameView, elementType:uiElementTypes.buttons}, 
 						{str:"BACK", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons} 
 						];
 	var dlcElements		= [{str:"Downloadable Content", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
@@ -69,23 +69,24 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"PAUSE", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}, 
 						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
-						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons} 
+						{str:"GAME OVER", targetScreen:screenEnum.gameOver, elementType:uiElementTypes.buttons} 
 						];
 	var thirdPersonElements = [ {str:"This is the game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"PAUSE", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}, 
 						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
-						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons} 
+						{str:"GAME OVER", targetScreen:screenEnum.gameOver, elementType:uiElementTypes.buttons} 
 						];
 	var mountElements = [ {str:"This is the game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Game State", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"PAUSE", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}, 
 						{str:"WIN", targetScreen:screenEnum.winState, elementType:uiElementTypes.buttons}, 
-						{str:"GAME OVER", targetScreen:screenEnum.gameOverState, elementType:uiElementTypes.buttons} 
+						{str:"GAME OVER", targetScreen:screenEnum.gameOver, elementType:uiElementTypes.buttons} 
 						];
 	var pauseElements = [{str:"GAME PAUSED", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Save Game", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
 						{str:"Load Game", targetScreen:screenEnum.loadGame, elementType:uiElementTypes.buttons},
+						{str:screenNames.settings, targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons },
 						{str:"Map", targetScreen:screenEnum.map, elementType:uiElementTypes.buttons},
 						{str:"Inventory", targetScreen:screenEnum.inventory, elementType:uiElementTypes.buttons},
 						{str:"Beastiary", targetScreen:screenEnum.beastiary, elementType:uiElementTypes.buttons},
@@ -96,6 +97,7 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 						{str:"BACK", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons} 
 						];	
 	var inventoryElements = [{str:"INVENTORY", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+						{str:"Equip Mount", targetScreen:screenEnum.mount, elementType:uiElementTypes.buttons},
 						{str:"BACK", targetScreen:screenEnum.pause, elementType:uiElementTypes.buttons}
 						];
 	var beastiaryElements = [{str:"BESTIARY", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
@@ -110,6 +112,9 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 						];
 	var controlsElements = [{str:"This is the controls screen", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"BACK", targetScreen:screenEnum.settings, elementType:uiElementTypes.buttons} 
+						];
+	var gameViewElements = [{str:"FIRST PERSON", targetScreen:screenEnum.firstPerson, elementType:uiElementTypes.buttons},
+						{str:"THIRD PERSON", targetScreen:screenEnum.thirdPerson, elementType:uiElementTypes.buttons}
 						];
 	
 	var imgArray = [{img:null, str:"background", x:0, y:0, w:1280, h:800, over:false}];
@@ -130,9 +135,10 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 				{enter:enterMap, update:updateMap, exit:exitMap, str:screenNames.mapScreen, content: mapElements, bgImage:imgArray[0], textColor:"Black"},
 				{enter:enterInventory, update:updateInventory, exit:exitInventory, str:screenNames.inventory, content: inventoryElements, bgImage:imgArray[0], textColor:"Black"},
 				{enter:enterBeastiary, update:updateBeastiary, exit:exitBeastiary, str:screenNames.beastiary, content: beastiaryElements, bgImage:imgArray[0], textColor:"Black"},
-				{enter:enterGameOver, update:updateGameOver, exit:exitGameOver, str:screenNames.gameOverState, content: gameOverElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterGameOver, update:updateGameOver, exit:exitGameOver, str:screenNames.gameOver, content: gameOverElements, bgImage:imgArray[0], textColor:"Black"},
 				{enter:enterWinState, update:updateWinState, exit:exitWinState, str:screenNames.winState, content: winStateElements, bgImage:imgArray[0], textColor:"Black"},
-				{enter:enterControls, update:updateControls, exit:exitControls, str:screenNames.controls, content: controlsElements, bgImage:imgArray[0], textColor:"Black"}
+				{enter:enterControls, update:updateControls, exit:exitControls, str:screenNames.controls, content: controlsElements, bgImage:imgArray[0], textColor:"Black"},
+				{enter:enterGameView, update:updateGameView, exit:exitGameView, str:screenNames.gameView, content: gameViewElements, bgImage:imgArray[0], textColor:"Black"}
 				];
 var screenStack = [];
 var currentScreen;
@@ -635,3 +641,18 @@ function exitBeastiary()
 	// exit code
 }
 
+//GameView
+function enterGameView()
+{	
+	_canvas.style.backgroundImage = "url(images/background.png)";
+}
+
+function updateGameView()
+{
+	displayContent();
+}
+
+function exitGameView()
+{
+	// exit code
+}
