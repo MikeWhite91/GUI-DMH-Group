@@ -29,9 +29,9 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 						{str:screenNames.credits, targetScreen:screenEnum.credits, elementType:uiElementTypes.buttons},
 						{str:screenNames.quitGame, targetScreen:screenEnum.quitGame, elementType:uiElementTypes.buttons}
 						];
-	var newGameElements = [ {str:"Easy", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
-						{str:"Medium", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
-						{str:"Hard", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
+	var newGameElements = [ {str:"Beginner", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
+						{str:"Normal", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
+						{str:"Experienced", targetScreen:screenEnum.saveGame, elementType:uiElementTypes.buttons},
 						{str:"BACK",  targetScreen:screenEnum.title, elementType:uiElementTypes.buttons}	
 						];	
 	var loadGameElements = [{str:"Save 1", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
@@ -56,7 +56,7 @@ var screenEnum = { title:0,  newGame:1, loadGame:2, settings:3, dlc:4, credits:5
 						{str:"YES", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons},
 						{str:"NO", targetScreen:screenEnum.title, elementType:uiElementTypes.buttons}
 						];
-	var saveGameElements = [{str:"Save your game", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
+	var saveGameElements = [{str:"Choose a save", targetScreen:screenEnum.none, elementType:uiElementTypes.simpleText},
 						{str:"Save 1", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
 						{str:"Save 2", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
 						{str:"Save 3", targetScreen:screenEnum.loadingScreen, elementType:uiElementTypes.buttons},
